@@ -38,6 +38,7 @@ app.use(function(req, res, next){
         password : '0000',
         database : 'restaurants'
     });
+    
     connection.connect();
 
     next();
