@@ -38,13 +38,13 @@ app.use(function(req, res, next){
         password : '0000',
         database : 'restaurants'
     });
-    
+
     connection.connect();
 
     next();
 });
-
-app.get('/api',function(request,response){
+// get restaurants
+app.get('/api/restaurants',function(request,response){
     connection.query('SELECT * FROM restaurants', function(err, rows, fields)
 
     {
@@ -55,11 +55,86 @@ app.get('/api',function(request,response){
     });
 
 } );
+// get  items
+app.get('/api/items',function(request,response){
+    connection.query('SELECT * FROM meal_items', function(err, rows, fields)
+
+    {
+        console.log('Connection result error '+err);
+        console.log('no of records is '+rows.length);
+        response.writeHead(200, { 'Content-Type': 'application/json'});
+        response.end(JSON.stringify(rows));
+    });
+
+} );
+// get menus
+app.get('/api/menus',function(request,response){
+    connection.query('SELECT * FROM menus', function(err, rows, fields)
+
+    {
+        console.log('Connection result error '+err);
+        console.log('no of records is '+rows.length);
+        response.writeHead(200, { 'Content-Type': 'application/json'});
+        response.end(JSON.stringify(rows));
+    });
+
+} );
+// post restaurants
+app.post('/api/restaurant_post', function(req, res){
+    connection.query('INSERT INTO restaurants SET ?', req.body,
+        function (err, result) {
+            if (err) throw err;
+            res.send('User POSTED to database with ID: ');
+        }
+    );
+})
+// post menus
+app.post('/api/restaurant_items', function(req, res){
+    connection.query('INSERT INTO restaurants SET ?', req.body,
+        function (err, result) {
+            if (err) throw err;
+            res.send('User POSTED to database with ID: ' );
+        }
+    );
+})
+// post items
+app.post('/api/restaurant_menu', function(req, res){
+    connection.query('INSERT INTO restaurants SET ?', req.body,
+        function (err, result) {
+            if (err) throw err;
+            res.send('User POSTED to database with ID: ');
+        }
+    );
+})
 
 
-
-
-
+// delete restaurants
+app.delete('/api/restaurant', function(req, res){
+    connection.query('DELETE restaurants SET ?', req.body,
+        function (err, result) {
+            if (err) throw err;
+            res.send('User DELETED database with ID: ' );
+        }
+    );
+})
+// post menus
+app.DELETE('/api/restaurant_items', function(req, res){
+    connection.query('DELETE restaurants SET ?', req.body,
+        function (err, result) {
+            if (err) throw err;
+            res.send('User DELETED database with ID: ' );
+        }
+    );
+})
+// post items
+app.DELETE('/api/restaurant_menu', function(req, res){
+    connection.query('DELETE restaurants SET ?', req.body,
+        function (err, result) {
+            if (err) throw err;
+            res.send('User DELETED database with ID: ' );
+        }
+    );
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
